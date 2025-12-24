@@ -1,0 +1,23 @@
+# Air live reload
+.air/
+.air.toml
+*.tmp
+# Go build outputs
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Go modules
+vendor/
+
+# Logs
+*.log
+
+# IDE / editor files
+.vscode/
+.idea/
+
+# Environment variables
+.env
