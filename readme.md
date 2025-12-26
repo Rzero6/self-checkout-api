@@ -6,7 +6,7 @@ Base URL: /api
 
 Endpoint:
 POST /api/login
-Digunakan untuk autentikasi user dan mendapatkan JWT Token.
+User Authentication and to get JWT Token.
 
 Request Body:
 
