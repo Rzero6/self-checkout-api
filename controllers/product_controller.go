@@ -5,9 +5,9 @@ import (
 	"math"
 	"strconv"
 
-	"github.com/Rzero6/self-checkout-api/internal/models"
-	"github.com/Rzero6/self-checkout-api/internal/services"
-	"github.com/Rzero6/self-checkout-api/internal/utils"
+	"github.com/Rzero6/self-checkout-api/models"
+	"github.com/Rzero6/self-checkout-api/services"
+	"github.com/Rzero6/self-checkout-api/utils"
 	"github.com/gofiber/fiber/v2"
 )
 

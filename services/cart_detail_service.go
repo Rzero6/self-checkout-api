@@ -3,8 +3,8 @@ package services
 import (
 	"strconv"
 
-	"github.com/Rzero6/self-checkout-api/internal/models"
-	"github.com/Rzero6/self-checkout-api/internal/repositories"
+	"github.com/Rzero6/self-checkout-api/models"
+	"github.com/Rzero6/self-checkout-api/repositories"
 )
 
 func AddProductsToCart(cart models.Cart, product models.Product, quantity int) (string, *models.CartDetail, error) {

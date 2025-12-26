@@ -3,8 +3,8 @@ package services
 import (
 	"errors"
 
-	"github.com/Rzero6/self-checkout-api/internal/repositories"
-	"github.com/Rzero6/self-checkout-api/internal/utils"
+	"github.com/Rzero6/self-checkout-api/repositories"
+	"github.com/Rzero6/self-checkout-api/utils"
 )
 
 func Login(username, password string) (string, error) {

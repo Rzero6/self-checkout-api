@@ -1,9 +1,9 @@
 package routes
 
 import (
-	"github.com/Rzero6/self-checkout-api/internal/controllers"
-	"github.com/Rzero6/self-checkout-api/internal/middlewares"
-	"github.com/Rzero6/self-checkout-api/internal/services"
+	"github.com/Rzero6/self-checkout-api/controllers"
+	"github.com/Rzero6/self-checkout-api/middlewares"
+	"github.com/Rzero6/self-checkout-api/services"
 	"github.com/gofiber/fiber/v2"
 )
 

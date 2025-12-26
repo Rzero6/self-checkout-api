@@ -1,8 +1,8 @@
 package services
 
 import (
-	"github.com/Rzero6/self-checkout-api/internal/models"
-	"github.com/Rzero6/self-checkout-api/internal/repositories"
+	"github.com/Rzero6/self-checkout-api/models"
+	"github.com/Rzero6/self-checkout-api/repositories"
 )
 
 func CheckCartExist(sessionID string) (int64, error) {

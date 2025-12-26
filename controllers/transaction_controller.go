@@ -4,9 +4,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/Rzero6/self-checkout-api/internal/models"
-	"github.com/Rzero6/self-checkout-api/internal/services"
-	"github.com/Rzero6/self-checkout-api/internal/utils"
+	"github.com/Rzero6/self-checkout-api/models"
+	"github.com/Rzero6/self-checkout-api/services"
+	"github.com/Rzero6/self-checkout-api/utils"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 	"github.com/midtrans/midtrans-go/coreapi"
@@ -25,11 +25,11 @@ type CreatePayment struct {
 }
 
 func (p *PaymentController) CreateTransaction(ctx *fiber.Ctx) error {
-	sessionID := ctx.Get("X-Session-ID")
+	sessionID := ctx.Get(utils.SessionIDHeader)
 	if sessionID == "" {
 		return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 			"success": false,
-			"message": "session_id required",
+			"message": utils.SessionIDMessage,
 		})
 	}
 	cartID, cErr := services.CheckCartExist(sessionID)
@@ -121,7 +121,7 @@ func (p *PaymentController) CreateTransaction(ctx *fiber.Ctx) error {
 	if tdErr != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"success": false,
-			"message": utils.MessageDataCreated("Transaction Details", utils.MessageStatusFailed),
+			"message": utils.MessageDataCreated("Transaction's Details", utils.MessageStatusFailed),
 			"error":   tdErr.Error(),
 		})
 	}
@@ -135,11 +135,11 @@ func (p *PaymentController) CreateTransaction(ctx *fiber.Ctx) error {
 }
 
 func (p *PaymentController) GetTransactionStatus(ctx *fiber.Ctx) error {
-	sessionID := ctx.Get("X-Session-ID")
+	sessionID := ctx.Get(utils.SessionIDHeader)
 	if sessionID == "" {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"success": false,
-			"message": "session_id required",
+			"message": utils.SessionIDMessage,
 		})
 	}
 	if _, err := uuid.Parse(sessionID); err != nil {
@@ -194,26 +194,26 @@ func (p *PaymentController) MidtransNotification(ctx *fiber.Ctx) error {
 
 	// DB update
 	paymentStatus := utils.TranslateMidtransPaymentStatus(notif)
-	_, err := services.PatchStatusTransaction(notif.OrderID, paymentStatus)
+	transaction, err := services.PatchStatusTransaction(notif.OrderID, paymentStatus)
 	if err != nil {
 		return ctx.SendStatus(fiber.StatusInternalServerError)
 	}
-	// if paymentStatus == utils.TransactionStatusCancelled {
-	// 	_, err := services.PatchCartStatus(int64(transaction.CartID), string(utils.CartStatusCancelled))
-	// 	if err != nil {
-	// 		return ctx.SendStatus(fiber.StatusInternalServerError)
-	// 	}
-	// }
+	if paymentStatus == utils.TransactionStatusSuccess {
+		_, err := services.PatchCartStatus(int64(transaction.CartID), string(utils.CartStatusCheckedOut))
+		if err != nil {
+			return ctx.SendStatus(fiber.StatusInternalServerError)
+		}
+	}
 
 	return ctx.SendStatus(fiber.StatusOK)
 }
 
 func (p *PaymentController) CancelTransaction(ctx *fiber.Ctx) error {
-	sessionID := ctx.Get("X-Session-ID")
+	sessionID := ctx.Get(utils.SessionIDHeader)
 	if sessionID == "" {
 		return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 			"success": false,
-			"message": "session_id required",
+			"message": utils.SessionIDMessage,
 		})
 	}
 	cartID, err := services.CheckCartExist(sessionID)
@@ -281,11 +281,11 @@ func (p *PaymentController) CancelTransaction(ctx *fiber.Ctx) error {
 }
 
 func GetTransactionDetails(ctx *fiber.Ctx) error {
-	sessionID := ctx.Get("X-Session-ID")
+	sessionID := ctx.Get(utils.SessionIDHeader)
 	if sessionID == "" {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"success": false,
-			"message": "session_id required",
+			"message": utils.SessionIDMessage,
 		})
 	}
 	if _, err := uuid.Parse(sessionID); err != nil {

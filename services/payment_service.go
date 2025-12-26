@@ -6,9 +6,9 @@ import (
 	"strings"
 
 	"github.com/Rzero6/self-checkout-api/config"
-	"github.com/Rzero6/self-checkout-api/internal/models"
-	"github.com/Rzero6/self-checkout-api/internal/repositories"
-	"github.com/Rzero6/self-checkout-api/internal/utils"
+	"github.com/Rzero6/self-checkout-api/models"
+	"github.com/Rzero6/self-checkout-api/repositories"
+	"github.com/Rzero6/self-checkout-api/utils"
 	"github.com/midtrans/midtrans-go"
 	"github.com/midtrans/midtrans-go/coreapi"
 )
@@ -118,6 +118,13 @@ func (s *PaymentService) GetTransactionStatus(orderID string) (*models.Transacti
 	if err != nil {
 		result.Details = details
 		return &result, fmt.Errorf("failed to read transactions db: %s", err.Error())
+	}
+	//Update Cart Status
+	if transaction.Status == utils.TransactionStatusSuccess {
+		_, err := PatchCartStatus(int64(transaction.CartID), string(utils.CartStatusCheckedOut))
+		if err != nil {
+			return &result, fmt.Errorf("failed to read transactions db: %s", err.Error())
+		}
 	}
 
 	transaction.Details = details

@@ -5,8 +5,8 @@ import (
 	"fmt"
 
 	"github.com/Rzero6/self-checkout-api/config"
-	"github.com/Rzero6/self-checkout-api/internal/models"
-	"github.com/Rzero6/self-checkout-api/internal/utils"
+	"github.com/Rzero6/self-checkout-api/models"
+	"github.com/Rzero6/self-checkout-api/utils"
 	"github.com/jackc/pgx/v5"
 )
 

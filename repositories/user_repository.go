@@ -2,7 +2,7 @@ package repositories
 
 import (
 	"github.com/Rzero6/self-checkout-api/config"
-	"github.com/Rzero6/self-checkout-api/internal/models"
+	"github.com/Rzero6/self-checkout-api/models"
 )
 
 func GetUserByUsername(username string) (*models.User, error) {

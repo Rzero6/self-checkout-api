@@ -3,9 +3,9 @@ package controllers
 import (
 	"strconv"
 
-	"github.com/Rzero6/self-checkout-api/internal/models"
-	"github.com/Rzero6/self-checkout-api/internal/services"
-	"github.com/Rzero6/self-checkout-api/internal/utils"
+	"github.com/Rzero6/self-checkout-api/models"
+	"github.com/Rzero6/self-checkout-api/services"
+	"github.com/Rzero6/self-checkout-api/utils"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 )
@@ -35,11 +35,11 @@ func StartCart(c *fiber.Ctx) error {
 }
 
 func GetCurrentCart(c *fiber.Ctx) error {
-	sessionID := c.Get("X-Session-ID")
+	sessionID := c.Get(utils.SessionIDHeader)
 	if sessionID == "" {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"success": false,
-			"message": "session_id required",
+			"message": utils.SessionIDMessage,
 		})
 	}
 
@@ -66,11 +66,11 @@ func GetCurrentCart(c *fiber.Ctx) error {
 
 // Delete all product by deleting the cart :)
 func DeleteAllProductFromCart(c *fiber.Ctx) error {
-	sessionID := c.Get("X-Session-ID")
+	sessionID := c.Get(utils.SessionIDHeader)
 	if sessionID == "" {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"success": false,
-			"message": "session_id required",
+			"message": utils.SessionIDMessage,
 		})
 	}
 	cartID, err := services.CheckCartExist(sessionID)
