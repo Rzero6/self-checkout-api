@@ -11,5 +11,6 @@ type Transaction struct {
 	PaymentType string              `json:"payment_type"`
 	QRISLink    *string             `json:"qris_link"`
 	ExpireTime  *time.Time          `json:"expire_time"`
+	CreatedAt   *time.Time          `json:"created_at"`
 	Details     []TransactionDetail `json:"details"`
 }

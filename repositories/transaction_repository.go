@@ -35,6 +35,32 @@ func CheckExistingTransaction(cartID int64) (*models.Transaction, error) {
 	return &tx, nil
 }
 
+func GetTransactionByOrderID(orderID string, status string) (*models.Transaction, error) {
+	ctx, cancel := config.DBContext()
+	defer cancel()
+
+	var transaction models.Transaction
+	query := `
+		SELECT order_id, payment_type, status, amount, created_at
+		FROM transactions
+		WHERE order_id = $1 AND status = $2
+	`
+	err := config.DB.QueryRow(ctx, query, orderID, status).Scan(
+		&transaction.OrderID,
+		&transaction.PaymentType,
+		&transaction.Status,
+		&transaction.GrossAmount,
+		&transaction.CreatedAt,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &transaction, nil
+
+}
+
 func CreateTransaction(transaction models.Transaction) (int64, error) {
 	ctx, cancel := config.DBContext()
 	defer cancel()

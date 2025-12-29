@@ -36,5 +36,5 @@ func SetupRoutes(app *fiber.App, paymentService *services.PaymentService) {
 	payment.Get("/:order_id/details", controllers.GetTransactionDetails)
 	payment.Post("/:order_id/cancel", paymentController.CancelTransaction)
 	payment.Post("/notification", paymentController.MidtransNotification)
-
+	payment.Post("/invoice", controllers.CreateInvoice)
 }
