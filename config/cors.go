@@ -15,7 +15,7 @@ func SetupCORS(app *fiber.App) {
 	app.Use(cors.New(cors.Config{
 		AllowOrigins:     frontUrl,
 		AllowMethods:     "GET,POST,PUT,PATCH,DELETE,OPTIONS",
-		AllowHeaders:     "Origin, Content-Type, Accept, Authorization, X-Session-ID",
+		AllowHeaders:     "Origin, Content-Type, Accept, Authorization, X-Session-ID, ngrok-skip-browser-warning",
 		AllowCredentials: true,
 	}))
 	// } else {
