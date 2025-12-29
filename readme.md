@@ -459,3 +459,18 @@ Response:
 ### Midtrans Notification (Webhook)
 
 Endpoint: POST /api/transaction/notification
+
+### Sending Invoice via Email
+
+Endpoint: POST /api/transaction/invoice
+
+Headers:
+
+Body:
+
+```json
+{
+  "order_id":"string",
+  "email":"email@example.com",
+}
+```

@@ -96,5 +96,6 @@ func CreateInvoice(ctx *fiber.Ctx) error {
 	return ctx.Status(fiber.StatusCreated).JSON(fiber.Map{
 		"success": true,
 		"message": "Invoice has been sent to " + req.Email,
+		"data":    true,
 	})
 }

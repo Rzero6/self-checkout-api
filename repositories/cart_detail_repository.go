@@ -86,6 +86,7 @@ func GetCartDetailsBySessionID(sessionID string) ([]models.CartDetail, error) {
 		JOIN carts c ON c.id = cd.cart_id
 		JOIN products p on cd.product_id = p.id
 		WHERE c.session_id = $1 AND c.status = $2
+		ORDER BY p.name
 	`
 	rows, err := config.DB.Query(ctx, query, sessionID, utils.CartStatusActive)
 	if err != nil {

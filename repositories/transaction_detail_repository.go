@@ -17,6 +17,7 @@ func GetTransactionDetailsByTransactionByOrderID(orderID string) ([]models.Trans
 		FROM transaction_details td
 		JOIN transactions t ON t.id = td.transaction_id
 		WHERE t.order_id = $1
+		ORDER BY td.product_name
 	`
 	rows, err := config.DB.Query(ctx, query, orderID)
 	if err != nil {
